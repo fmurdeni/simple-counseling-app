@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 use App\Services\SentimentAnalyzerService;
+use App\Events\MessageSent;
 
 class ChatController extends Controller
 {
@@ -41,6 +42,12 @@ class ChatController extends Controller
         $message->emotion = $sentiment['emotion'];
 
         $message->save();
+
+        // get sender
+        $sender = Auth::user();
+
+        // Trigger event untuk mengirim notifikasi email
+        event(new MessageSent($sender, $message));
 
         // Return the response with success and the rendered HTML
         return response()->json(['success' => true]);

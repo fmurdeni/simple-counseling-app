@@ -13,7 +13,7 @@ class create_default_user extends Seeder
      */
     public function run(): void
     {
-        $user = [
+        $users = [
                     [
                         'id' => 1,
                         'name' => 'admin',
@@ -27,6 +27,9 @@ class create_default_user extends Seeder
                         'password' => bcrypt('pekanbaru')
                     ]
             ];
-        User::insert($user);
+
+        foreach ($users as $user) {
+            User::create($user);
+        }
     }
 }

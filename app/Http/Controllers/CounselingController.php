@@ -63,6 +63,14 @@ class CounselingController extends Controller
             'emotion' => $sentiment['emotion'] ?? 'neutral',
         ]);
         
+        // get all users has role 1 & send them the notification
+        $users = Auth::user()->whereHas('roles', function ($query) {
+            $query->where('name', '1');
+        })->get();
+        
+        foreach ($users as $user) {
+            $user->notify(new NewPendingCounseling($counseling));
+        }
         
         return redirect()->route('counselings.index')->with('success', 'Permintaan konseling berhasil dikirim.');
     }

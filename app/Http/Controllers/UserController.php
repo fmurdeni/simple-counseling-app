@@ -98,6 +98,7 @@ class UserController extends Controller
         
         // assign roles
         $user->roles()->sync($validatedData['roles']);
+        
 
         // save custom fields
         $fields = UserCustomField::fields();
@@ -116,6 +117,13 @@ class UserController extends Controller
         }
 
         return back()->with('success', 'User updated successfully.');
+    }
+
+    public function get_user_by_role($role_id){
+        $users = User::where('id', '!=', 1)->whereHas('roles', function ($query) use ($role_id) {
+            $query->where('role_id', $role_id);
+        })->get();
+        return $users;
     }
 
     public function destroy(User $user)

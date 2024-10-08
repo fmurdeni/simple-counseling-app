@@ -24,9 +24,9 @@
                 </div>
             </form>
             
+            <x-auth-session-status class="mb-4 mt-4" :status="session('status')" />
         </div>
         </div>
     </div>
     
-    <x-auth-session-status class="mb-4" :status="session('status')" />
 </x-guest-layout>

@@ -11,6 +11,11 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{ __("You're logged in!") }}
                 </div>
+                @php
+                $user_id = Auth::user()->id;
+                $user = App\Models\User::find($user_id);
+                print_r($user->hasRole('1'));
+                @endphp
             </div>
         </div>
     </div>
