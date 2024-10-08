@@ -18,6 +18,7 @@
         @vite([
             'resources/css/app.css',            
             'resources/css/common.css',
+            'resources/css/tailwind.output.css',
             'resources/js/app.js', 
             ])
     </head>

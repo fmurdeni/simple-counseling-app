@@ -24,7 +24,7 @@ class CounselingController extends Controller
             $total = Counseling::count();
 
         } else {
-            $counselings = Counseling::where('user_id', Auth::id());
+            $counselings = Counseling::where('user_id', Auth::id())->get();
             $total = $counselings->count();
             // $counselings = $counselings->paginate($per_page);
         }

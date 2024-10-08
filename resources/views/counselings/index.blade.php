@@ -128,9 +128,7 @@
 
     </div>
     
-    <div class="pagination">
-        {{ $counselings->links() }}
-    </div>
+    
 </x-app-layout>
 
 

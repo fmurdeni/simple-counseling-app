@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('field_key');
             $table->string('field_value')->nullable();
             $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
@@ -27,6 +26,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_fields');
+        Schema::dropIfExists('user_custom_fields');
+        
     }
 };
