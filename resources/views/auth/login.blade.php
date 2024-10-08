@@ -4,7 +4,8 @@
         <div class="flex items-center justify-center p-6 sm:p-12 w-full">
             <div class="w-full">
                 <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">Login</h1>
-                <form method="POST" action="{{ route('login') }}"> @csrf
+                <form method="POST" action="{{ route('login') }}"> 
+                @csrf
                     <div class="block text-sm">
                         <x-input-label class="block" for="email" :value="__('Email')" />
                         <x-input-text id="email" class="block w-full mt-1 text-sm text-gray-700 dark:text-gray-200" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />

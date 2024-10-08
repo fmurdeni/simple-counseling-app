@@ -42,7 +42,7 @@ if (messageForm) {
                 (response) => {
                     document.getElementById("message-input").value = "";
                     document.getElementById("message-input").focus();
-                
+                    console.log('should empty')
                     getMessages(counseling_id);
                     
                 }

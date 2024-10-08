@@ -123,14 +123,14 @@ class CounselingController extends Controller
     }
 
 
-
     public function approve($id)
     {
         $counseling = Counseling::findOrFail($id);
         $counseling->status = 'approved';
         $counseling->save();
 
-        return redirect()->back()->with('status', 'Konseling disetujui.');
+        return back()->with('success', 'Konseling disetujui.');
+
     }
 
     public function reject($id)

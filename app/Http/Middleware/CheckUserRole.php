@@ -6,12 +6,14 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\User;
+
 class CheckUserRole
 {
     public function handle(Request $request, Closure $next)
     {
         // Check if the user is authenticated and has the role of 1
-        if (Auth::check() && Auth::user()->role == 1) {
+        if (Auth::check() && Auth::user()->hasRole(1) ) {
             return $next($request);
         }
 

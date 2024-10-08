@@ -1,9 +1,10 @@
 <x-app-layout>
-    @if (Auth::user()->id !== $counseling->user_id)
+    @if ($counseling->user_id !== auth()->user()->id && !auth()->user()->hasRole(1))
         @php
             abort(403, 'Anda tidak memiliki akses ke halaman ini');
         @endphp
     @endif
+
     
     <div class="container grid px-6 mx-auto">
             
