@@ -18,6 +18,6 @@ class CheckUserRole
         }
 
         // If the user does not have access, redirect to home or another page
-        return redirect('/admin')->with('error', 'You do not have access to this resource.');
+        return redirect(route('dashboard'))->with('error', 'Akses dibatasi.');
     }
 }

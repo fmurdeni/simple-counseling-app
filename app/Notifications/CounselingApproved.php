@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewPendingCounseling extends Notification implements ShouldQueue
+class CounselingApproved extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -25,13 +25,12 @@ class NewPendingCounseling extends Notification implements ShouldQueue
 
     public function toMail($notifiable)
     {
+        
+        Log::info('Notifikasi CounselingApproved masuk queue');
         return (new MailMessage)
-            ->greeting('Halo!')
-            ->line('Sebuah konseling baru telah dibuat dan saat ini sedang menunggu.')
-            ->line('Detail:')
-            ->line('ID: ' . $this->counseling->id)
-            ->line('Dibuat Pada: ' . $this->counseling->created_at)
-            ->action('Lihat Konseling', url('/counselings/' . $this->counseling->id))
-            ->line('Terima kasih!');
+                    ->subject('Permintaan Konseling Disetujui '.now()->format('d-m-Y H:i:s'))
+                    ->line('Permintaan konseling Anda telah disetujui.')
+                    ->action('Lihat Detail', url('/admin/counselings/'.$this->counseling->id))
+                    ->line('Sekarang anda dapat mengakses konseling, dan memulai sesi.');
     }
 }

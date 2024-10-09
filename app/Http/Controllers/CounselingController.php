@@ -9,8 +9,13 @@ use Illuminate\View\View;
 
 use App\Models\Counseling;
 use App\Models\Message;
+use App\Models\User;
 
 use App\Services\SentimentAnalyzerService;
+
+use App\Notifications\NewCounselingRequest;
+use App\Notifications\CounselingApproved;
+use App\Notifications\CounselingRejected;
 
 class CounselingController extends Controller
 {
@@ -63,14 +68,14 @@ class CounselingController extends Controller
             'emotion' => $sentiment['emotion'] ?? 'neutral',
         ]);
         
-        // get all users has role 1 & send them the notification
-        $users = Auth::user()->whereHas('roles', function ($query) {
-            $query->where('name', '1');
-        })->get();
-        
-        foreach ($users as $user) {
-            $user->notify(new NewPendingCounseling($counseling));
-        }
+        // Get user has role 1
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('role_id', '1');
+        });
+
+        $users->get()->each(function ($user) use ($counseling) {
+            $user->notify(new NewCounselingRequest($counseling));
+        });
         
         return redirect()->route('counselings.index')->with('success', 'Permintaan konseling berhasil dikirim.');
     }
@@ -129,6 +134,9 @@ class CounselingController extends Controller
         $counseling->status = 'approved';
         $counseling->save();
 
+        $author = User::findOrFail($counseling->user_id);
+        $author->notify(new CounselingApproved($counseling));
+
         return back()->with('success', 'Konseling disetujui.');
 
     }
@@ -138,6 +146,9 @@ class CounselingController extends Controller
         $counseling = Counseling::findOrFail($id);
         $counseling->status = 'rejected';
         $counseling->save();
+
+        $author = User::findOrFail($counseling->user_id);
+        $author->notify(new CounselingRejected($counseling));
 
         return redirect()->back()->with('status', 'Konseling ditolak.');
     }

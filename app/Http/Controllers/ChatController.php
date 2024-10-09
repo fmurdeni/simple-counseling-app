@@ -46,8 +46,7 @@ class ChatController extends Controller
         // get sender
         $sender = Auth::user();
 
-        // Trigger event untuk mengirim notifikasi email
-        event(new MessageSent($sender, $message));
+        
 
         // Return the response with success and the rendered HTML
         return response()->json(['success' => true]);

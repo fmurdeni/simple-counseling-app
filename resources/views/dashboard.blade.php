@@ -12,9 +12,10 @@
                     {{ __("You're logged in!") }}
                 </div>
                 @php
-                $user_id = Auth::user()->id;
-                $user = App\Models\User::find($user_id);
-                print_r($user->hasRole('1'));
+                //$user = App\Models\User::findOrFail(1);
+                
+                //$counseling = App\Models\Counseling::findOrFail(2);
+                //$user->notify(new App\Notifications\CounselingApproved($counseling));
                 @endphp
             </div>
         </div>

@@ -44,6 +44,11 @@ Route::middleware('auth')->group(function () {
     
     // Sentiment Analyzer
     Route::post('/admin/analyze-message', [SentimentAnalyzerController::class, 'analyze']);
+    
+    // Chat
+    Route::post('/admin/counselings/messages', [ChatController::class, 'sendMessage'])->name('messages.store');
+    Route::get('/admin/counselings/messages/items', [ChatController::class, 'getMessages'])->name('messages.get');
+
 });
 
 Route::middleware(['auth', CheckUserRole::class])->group(function () {
@@ -63,9 +68,7 @@ Route::middleware(['auth', CheckUserRole::class])->group(function () {
     Route::post('/admin/counselings/{id}/start', [CounselingController::class, 'start'])->name('counselings.start');
     Route::post('/admin/counselings/{id}/end', [CounselingController::class, 'end'])->name('counselings.end');
     
-    // Chat
-    Route::post('/admin/counselings/messages', [ChatController::class, 'sendMessage'])->name('messages.store');
-    Route::get('/admin/counselings/messages/items', [ChatController::class, 'getMessages'])->name('messages.get');
+    
     
 });
 
