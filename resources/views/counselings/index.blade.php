@@ -79,8 +79,8 @@
                                         </p>
 
                                         <p class="text-gray-500 dark:text-gray-400">
-                                            <span class="font-semibold">{{  __('Emosi: ') }}</span>
-                                            <x-emotion-display class="text-gray-500 dark:text-gray-400" :emotion="$counseling->emotion"  />
+                                            <span class="font-semibold">{{  __('Sentimen: ') }}</span>
+                                            <x-emotion-display class="text-gray-500 dark:text-gray-400" :emotion="$counseling->sentiment"  />
                                         </p>
                                         @endrole
                                     </td>                                    
@@ -125,9 +125,10 @@
                 
             </div>
         </div>
-
+        
+        {{ $counselings->links('pagination::default') }}
+        
     </div>
-    
     
 </x-app-layout>
 

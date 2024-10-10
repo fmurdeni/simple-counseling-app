@@ -35,9 +35,7 @@ switch($emotion){
     case 'confused':
         $emotion_text = 'bingung';
         break;
-    default:
-        $emotion_text = 'netral';
-        break;
+    
 }
 
 @endphp

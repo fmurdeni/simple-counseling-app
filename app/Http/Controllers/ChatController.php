@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 use App\Services\SentimentAnalyzerService;
+use App\Services\TextAnalysisService;
+
 use App\Events\MessageSent;
 
 class ChatController extends Controller
@@ -36,10 +38,10 @@ class ChatController extends Controller
         $message->message = $validatedData['message'];
         $message->counseling_id = $validatedData['counseling_id'];
         
-        $sentimentAnalyzer = new SentimentAnalyzerService();        
+        $sentimentAnalyzer = new TextAnalysisService();        
         $sentiment = $sentimentAnalyzer->analyzeMessage($validatedData['message']);
         
-        $message->emotion = $sentiment['emotion'];
+        $message->sentiment = $sentiment['sentiment'];
 
         $message->save();
 

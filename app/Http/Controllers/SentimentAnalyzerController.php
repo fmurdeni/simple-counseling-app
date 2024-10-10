@@ -4,14 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\SentimentAnalyzerService;
+use App\Services\TextAnalysisService;
 
 class SentimentAnalyzerController extends Controller
 {
     protected $sentimentAnalyzer;
+    protected $translation;
 
-    public function __construct(SentimentAnalyzerService $sentimentAnalyzer)
+
+    public function __construct(TextAnalysisService $sentimentAnalyzer)
     {
         $this->sentimentAnalyzer = $sentimentAnalyzer;
+        $this->translation = new TranslateClient([
+            'key' => env('GOOGLE_CLOUD_KEY'),
+        ]);
     }
 
     /**
@@ -27,7 +33,8 @@ class SentimentAnalyzerController extends Controller
         ]);
 
         // Analyze the message
-        $result = $this->sentimentAnalyzer->analyzeMessage($request->input('message'));
+        $textAnalyzer = new TextAnalysisService();
+        $result = $textAnalyzer->analyzeMessage($text);
 
         return response()->json($result);
     }

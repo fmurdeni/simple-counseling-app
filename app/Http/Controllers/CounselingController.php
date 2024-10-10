@@ -12,6 +12,7 @@ use App\Models\Message;
 use App\Models\User;
 
 use App\Services\SentimentAnalyzerService;
+use App\Services\TextAnalysisService;
 
 use App\Notifications\NewCounselingRequest;
 use App\Notifications\CounselingApproved;
@@ -22,10 +23,10 @@ class CounselingController extends Controller
     public function index()
     {
         // Fetch all counselings from the database
-        $per_page = 2;
+        $per_page = 5;
         if (Auth::user()->hasRole('1')) {
-            $counselings = Counseling::all();
-            // $counselings = Counseling::paginate($per_page);
+            // $counselings = Counseling::all();
+            $counselings = Counseling::paginate($per_page);
             $total = Counseling::count();
 
         } else {
@@ -53,7 +54,7 @@ class CounselingController extends Controller
         ]);
 
         // analize the description
-        $sentimentAnalyzer = new SentimentAnalyzerService();
+        $sentimentAnalyzer = new TextAnalysisService();
         $texts = $request->input('topic') . ' ' . $request->input('description');
         $sentiment = $sentimentAnalyzer->analyzeMessage($texts);
         
@@ -65,7 +66,7 @@ class CounselingController extends Controller
             'time_preference' => $request->input('time_preference'),
             'status' => 'pending',
             'level' => $sentiment['urgency_level'],
-            'emotion' => $sentiment['emotion'] ?? 'neutral',
+            'sentiment' => $sentiment['sentiment'] ?? 'neutral',
         ]);
         
         // Get user has role 1
@@ -108,11 +109,12 @@ class CounselingController extends Controller
         $counseling->time_preference = $request->input('time_preference');
 
         // analize the description
-        $sentimentAnalyzer = new SentimentAnalyzerService();
+        $sentimentAnalyzer = new TextAnalysisService();
         $texts = $request->input('topic') . ' ' . $request->input('description');
         $sentiment = $sentimentAnalyzer->analyzeMessage($texts);
+
         $counseling->level = $sentiment['urgency_level'];
-        $counseling->emotion = $sentiment['emotion'];
+        $counseling->sentiment = $sentiment['sentiment'];
 
         $counseling->save();
 

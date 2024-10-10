@@ -7,6 +7,8 @@
     "require": {
         "php": "^8.2",
         "davmixcool/php-sentiment-analyzer": "^1.2",
+        "google/cloud-language": "^0.34.0",
+        "google/cloud-translate": "^1.19",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
         "spatie/laravel-permission": "^6.9"

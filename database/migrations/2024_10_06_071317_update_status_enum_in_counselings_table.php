@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('counselings', function (Blueprint $table) {
             $table->enum('status', ['pending', 'approved', 'rejected', 'ongoing', 'completed'])->default('pending')->change();
-            $table->text('emotion');
+            $table->text('sentiment')->nullable();
         });
     }
 
@@ -23,7 +23,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('counselings', function (Blueprint $table) {
-            $table->dropColumn('emotion');
+            $table->dropColumn('sentiment');
         });
     }
+    
 };

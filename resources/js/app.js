@@ -118,6 +118,4 @@ const analyzeMessage = async (message) => {
 };
 
 // Call the function to send the request
-analyzeMessage(
-    "test"
-);
+

@@ -26,15 +26,16 @@ class SentimentAnalyzerService
         $sentiment = $this->analyzer->getSentiment($message);
 
         // Determine the urgency level based on custom logic
-        $urgencyLevel = $this->detectUrgencyLevel($message);
+        $urgencyLevel = $this->detectUrgencyLevel($message, $sentiment);
 
         // Detect emotion using keywords or patterns
         $emotion = $this->detectEmotion($message, $sentiment);
 
         return [
-            'sentiment' => $sentiment, // Sentiment result from analyzer
+            'score' => $sentiment, // Sentiment result from analyzer
             'urgency_level' => $urgencyLevel, // low, medium, high
-            'emotion' => $emotion, // Emotion string
+            'emotion' => '', // Deprecated
+            'sentiment' => $this->detectSentiment($sentiment),
         ];
     }
 
@@ -44,34 +45,59 @@ class SentimentAnalyzerService
      * @param string $message
      * @return string
      */
-    protected function detectUrgencyLevel(string $message): string
+    protected function detectUrgencyLevel(string $message, $sentiment): string
     {
         // Keywords associated with urgency
+        // berdasarkan vader sentiment analyzer dari https://github.com/cjhutto/vaderSentiment
+        $boost = 0.293;
         $highUrgencyKeywords = [
             'urgent', 'immediately', 'asap', 'emergency', 'critical', 
-            'darurat', 'penting', 'kritis', 'mendesak',
-        ];
-        $mediumUrgencyKeywords = [
+            'darurat', 'penting', 'kritis', 'mendesak',        
             'important', 'soon', 'priority', 'necessary', 
             'secepatnya', 'prioritas', 'segera', 'perlu', 'diperlukan',
         ];
         
         // Check for high urgency keywords
+        $urgencyScore = 0;
         foreach ($highUrgencyKeywords as $keyword) {
-            if (stripos($message, $keyword) !== false) {
-                return 'high';
+            $count = substr_count(strtolower($message), strtolower($keyword));
+            if ($count > 0) {
+                $urgencyScore += $count * $boost;
+                $sentimentScore = max([$sentiment['pos'], $sentiment['neg']]);
+                $urgencyScore += $sentimentScore;
             }
         }
 
-        // Check for medium urgency keywords
-        foreach ($mediumUrgencyKeywords as $keyword) {
-            if (stripos($message, $keyword) !== false) {
-                return 'medium';
-            }
+
+        // Determine urgency level
+        $urgencyScore += max($sentiment['pos'], $sentiment['neg']);
+        if ($urgencyScore > 0 && $urgencyScore < 0.5) {
+            $urgencyLevel = 'medium';
+        } elseif ($urgencyScore >= 0.5 ) {
+            $urgencyLevel = 'high';
+        } else {
+            $urgencyLevel = 'low';
+        }
+        
+        return $urgencyLevel;
+        
+    }
+
+    protected function detectSentiment(array $sentiment): string
+    {
+
+        $compound = $sentiment['compound'];
+
+        if ($compound >= 0.05) {
+            $conclusion = "positif";
+        } elseif ($compound <= -0.05) {
+            $conclusion = "negatif";
+        } else {
+            $conclusion = "netral";
         }
 
-        // Default to low urgency
-        return 'low';
+        return $conclusion;
+
     }
 
     /**
