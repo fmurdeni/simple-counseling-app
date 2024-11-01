@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Services\SentimentAnalyzerService;
 use App\Services\TextAnalysisService;
 
+use Google\Cloud\Translate\V2\TranslateClient;
+
 class SentimentAnalyzerController extends Controller
 {
     protected $sentimentAnalyzer;
@@ -33,6 +35,13 @@ class SentimentAnalyzerController extends Controller
         ]);
 
         // Analyze the message
+        $text = $request->input('message');
+        $text = $this->translation->translate($text, [
+            'target' => 'en',
+        ]);
+
+        $text = $text['text'];
+
         $textAnalyzer = new TextAnalysisService();
         $result = $textAnalyzer->analyzeMessage($text);
 

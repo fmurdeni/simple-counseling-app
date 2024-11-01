@@ -39,7 +39,7 @@ class NewCounselingRequest extends Notification implements ShouldQueue
         return (new MailMessage)
                     ->subject('Permintaan Konseling Baru '.now()->format('d-m-Y H:i:s'))
                     ->line('Sebuah permintaan konseling baru telah diajukan dengan prioritas '.$level.'.')
-                    ->action('Lihat Permintaan', url('/admin/counselings/'.$this->counseling->id))
+                    ->action('Lihat Permintaan', url('/counselings/'.$this->counseling->id))
                     ->line('Mohon tinjau dan ambil tindakan yang sesuai.');
     }
 }

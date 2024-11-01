@@ -18,6 +18,7 @@ use App\Notifications\NewCounselingRequest;
 use App\Notifications\CounselingApproved;
 use App\Notifications\CounselingRejected;
 
+
 class CounselingController extends Controller
 {
     public function index()
@@ -26,13 +27,12 @@ class CounselingController extends Controller
         $per_page = 5;
         if (Auth::user()->hasRole('1')) {
             // $counselings = Counseling::all();
-            $counselings = Counseling::paginate($per_page);
+            $counselings = Counseling::orderBy('updated_at', 'desc')->paginate($per_page);
             $total = Counseling::count();
 
         } else {
-            $counselings = Counseling::where('user_id', Auth::id())->get();
-            $total = $counselings->count();
-            // $counselings = $counselings->paginate($per_page);
+            $counselings = Counseling::where('user_id', Auth::id())->orderBy('updated_at', 'desc')->paginate($per_page);
+            
         }
 
         // Return the view with counselings data
@@ -55,7 +55,7 @@ class CounselingController extends Controller
 
         // analize the description
         $sentimentAnalyzer = new TextAnalysisService();
-        $texts = $request->input('topic') . ' ' . $request->input('description');
+        $texts = $request->input('topic') . '. ' . $request->input('description');
         $sentiment = $sentimentAnalyzer->analyzeMessage($texts);
         
 
@@ -66,8 +66,9 @@ class CounselingController extends Controller
             'time_preference' => $request->input('time_preference'),
             'status' => 'pending',
             'level' => $sentiment['urgency_level'],
-            'sentiment' => $sentiment['sentiment'] ?? 'neutral',
+            'sentiment' => $sentiment['sentiment'],
         ]);
+        
         
         // Get user has role 1
         $users = User::whereHas('roles', function ($query) {
@@ -110,7 +111,7 @@ class CounselingController extends Controller
 
         // analize the description
         $sentimentAnalyzer = new TextAnalysisService();
-        $texts = $request->input('topic') . ' ' . $request->input('description');
+        $texts = $request->input('topic') . '. ' . $request->input('description');
         $sentiment = $sentimentAnalyzer->analyzeMessage($texts);
 
         $counseling->level = $sentiment['urgency_level'];
@@ -126,6 +127,15 @@ class CounselingController extends Controller
     {
         $counseling = Counseling::findOrFail($id);
         $counseling->delete();
+
+        // Get all messages from the counseling
+        $messages = Message::where('counseling_id', $id)->get();
+
+        // Delete the messages
+        foreach ($messages as $message) {
+            $message->delete();
+        }
+
         return redirect()->route('counselings.index')->with('success', 'Permintaan konseling berhasil dihapus.');
     }
 

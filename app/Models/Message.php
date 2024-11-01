@@ -13,7 +13,7 @@ class Message extends Model
         'user_id',
         'counseling_id',
         'message',
-        'emotion',
+        'sentiment',
     ];
 
 }

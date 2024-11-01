@@ -14,7 +14,7 @@
         <span class="text-gray-400 dark:text-gray-400 text-xs italic">{{ $message->created_at->diffForHumans() }}</span>
         
         @role(1)
-        <x-emotion-display class="px-2 py-0.5 capitalize text-xs rounded-full italic underline" :emotion="$message->emotion" />
+        <x-emotion-display class="px-2 py-0.5 capitalize text-xs rounded-full italic underline" :emotion="$message->sentiment" />
         @endrole
         
     </div>

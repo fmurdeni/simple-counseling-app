@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="container grid px-6 mx-auto">
-
+        @unless (auth()->user()->hasRole(1))
         <div class="mt-4 flex items-center justify-between mb-6">
             <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
                 {{ __('Daftar Konseling') }}
@@ -9,6 +9,7 @@
                 {{ __('Tambah Konseling') }}
             </x-button-link-primary>        
         </div>
+        @endunless
         
 
         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">

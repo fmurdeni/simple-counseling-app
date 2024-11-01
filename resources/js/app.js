@@ -35,14 +35,23 @@ if (messageForm) {
     
         messageForm.addEventListener("submit", (e) => {
             e.preventDefault();
+            let messageInput = document.getElementById("message-input");
+            let submitButton = messageForm.querySelector("button[type='submit']");
+
+            submitButton.disabled = true;            
+            messageInput.readOnly = true;
+
+            
+
             const message = document.getElementById("message-input").value;
             const counseling_id = document.getElementById("counseling_id").value;
             
-            Axios.post("/admin/counselings/messages", { message, counseling_id }).then(
+            Axios.post("/counselings/messages", { message, counseling_id }).then(
                 (response) => {
                     document.getElementById("message-input").value = "";
                     document.getElementById("message-input").focus();
-                    console.log('should empty')
+                    submitButton.disabled = false;
+                    messageInput.readOnly = false;
                     getMessages(counseling_id);
                     
                 }
@@ -54,7 +63,7 @@ if (messageForm) {
 function getMessages(counseling_id) {
     const messageContainer = document.querySelector(".messages-display");
     
-    Axios.get("/admin/counselings/messages/items", { params: { counseling_id } }).then((response) => {
+    Axios.get("/counselings/messages/items", { params: { counseling_id } }).then((response) => {
         if (response.data) {
             messageContainer.innerHTML = response.data;
 
@@ -107,7 +116,7 @@ const analyzeMessage = async (message) => {
     try {
         
         const messageData = { message: message };       
-        const response = await axios.post('/admin/analyze-message', messageData);
+        const response = await axios.post('/analyze-message', messageData);
 
         // Handle the response
         console.log('Response:', response.data);
@@ -118,4 +127,5 @@ const analyzeMessage = async (message) => {
 };
 
 // Call the function to send the request
+
 

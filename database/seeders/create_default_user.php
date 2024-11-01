@@ -16,14 +16,14 @@ class create_default_user extends Seeder
         $users = [
                     [
                         'id' => 1,
-                        'name' => 'admin',
+                        'name' => 'Konselor',
                         'email' => 'feri@murdeni.com',
                         'password' => bcrypt('pekanbaru')
                     ],
                     [
                         'id' => 2,
-                        'name' => 'user',
-                        'email' => 'user@murdeni.com',
+                        'name' => 'Yudha',
+                        'email' => 'yudha@gmail.com',
                         'password' => bcrypt('pekanbaru')
                     ]
             ];

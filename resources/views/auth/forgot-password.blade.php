@@ -3,9 +3,9 @@
         
         <div class="flex items-center justify-center p-6 sm:p-12 w-full">
         <div class="w-full">
-            <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200" >{{ __('Forgot password') }}</h1>
+            <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200" >{{ __('Lupa kata sandi') }}</h1>
             <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-                {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+                {{ __('Lupa kata sandi Anda? Tidak masalah. Tinggal beritahu kami alamat email Anda dan kami akan mengirimkan tautan reset kata sandi yang akan memungkinkan Anda memilih yang baru.') }}
             </div>
             <form method="POST" action="{{ route('password.email') }}">
                 @csrf
@@ -19,7 +19,7 @@
 
                 <div class="flex items-center justify-end mt-4">
                     <x-purple-button class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center">
-                        {{ __('Recover password') }}
+                        {{ __('Kirimkan tautan reset') }}
                     </x-primary-button>
                 </div>
             </form>
@@ -30,3 +30,4 @@
     </div>
     
 </x-guest-layout>
+

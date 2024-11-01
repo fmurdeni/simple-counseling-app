@@ -28,7 +28,7 @@ class CounselingRejected extends Notification implements ShouldQueue
         return (new MailMessage)
                     ->subject('Permintaan konseling Anda ditolak ' . now()->format('d-m-Y H:i:s'))
                     ->line('Dengan sangat menyesal, kami menginformasikan bahwa permintaan konseling Anda telah ditolak.')
-                    ->action('Lihat Permintaan', url('/admin/counselings/'.$this->counseling->id))
+                    ->action('Lihat Permintaan', url('/counselings/'.$this->counseling->id))
                     ->line('Silakan edit atau ajukan permintaan konseling baru yang lebih baik.');
     }
 }

@@ -24,9 +24,9 @@
                             <div class="mb-4">
                                 <x-input-label for="name" :value="__('Preferensi Waktu')" />
                                 <x-input-select id="time_preference" class="block mt-1 w-full" type="text" name="time_preference" required autofocus>
-                                    <option value="morning">{{ __('Pagi') }}</option>
-                                    <option value="afternoon">{{ __('Siang') }}</option>
-                                    <option value="evening">{{ __('Malam') }}</option>
+                                    <option value="morning">{{ __('08.00 - 11.30') }}</option>
+                                    <option value="afternoon">{{ __('12.30 - 15.00') }}</option>
+                                    <option value="evening">{{ __('16.00 - 17.00') }}</option>
                                 </x-input-select>
                                 <x-input-error class="mt-2" :messages="$errors->get('time_preference')" />
                             </div>

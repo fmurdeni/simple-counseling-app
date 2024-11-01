@@ -5,13 +5,15 @@
             {{ __('Pengguna') }}
         </h2>
        
-
+        
         <div class="mt-4 flex items-center justify-between mb-6">
             <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
                 {{ __('Daftar Pengguna') }}
             </h4>
             <x-button-link-primary href="{{ route('users.create') }}">{{ __('Tambah Pengguna') }}</x-button-link>        
         </div>
+            
+       
         
 
         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
@@ -35,11 +37,13 @@
                                 </td>
                                 <td class="px-4 py-3">{{ $user->email }}</td>
                                 <td class="px-4 py-3">
-                                    @if ($user->role === 1)
-                                    <span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700"> {{ __('Konselor') }} </span>
-                                    @else
-                                    <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"> {{ __('Mahasiswa') }} </span>
-                                    @endif
+                                    @foreach ($user->roles as $role)
+                                    @php
+                                        $role = App\Models\Role::find($role->id);
+                                    @endphp
+                                        <span class="px-2 py-1 mr-1 text-xs font-semibold text-white bg-gray-600 rounded-full dark:bg-gray-700 dark:text-gray-300">{{ $role->name }}</span>
+                                    @endforeach
+                                    
                                    
                                 </td>
                                 <td class="px-4 py-3">

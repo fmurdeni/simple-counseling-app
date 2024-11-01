@@ -30,7 +30,7 @@ class CounselingApproved extends Notification implements ShouldQueue
         return (new MailMessage)
                     ->subject('Permintaan Konseling Disetujui '.now()->format('d-m-Y H:i:s'))
                     ->line('Permintaan konseling Anda telah disetujui.')
-                    ->action('Lihat Detail', url('/admin/counselings/'.$this->counseling->id))
+                    ->action('Lihat Detail', url('/counselings/'.$this->counseling->id))
                     ->line('Sekarang anda dapat mengakses konseling, dan memulai sesi.');
     }
 }

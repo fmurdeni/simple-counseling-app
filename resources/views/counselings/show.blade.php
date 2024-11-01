@@ -99,19 +99,19 @@
                         </p>
                         
                          <p class="text-gray-500 dark:text-gray-400">
-                            <span class="font-semibold">{{  __('Emosi: ') }}</span>
-                            <x-emotion-display class="text-gray-500 dark:text-gray-400" :emotion="$counseling->emotion"  />
+                            <span class="font-semibold">{{  __('Sentimen: ') }}</span>
+                            <x-emotion-display class="text-gray-500 dark:text-gray-400" :emotion="$counseling->sentiment"  />
                         </p>
                         @endrole
 
                         <p class="text-gray-500 dark:text-gray-400">
                             <span class="font-semibold">{{  __('Preferensi waktu: ') }}</span>
                             @if ($counseling->time_preference === 'morning')
-                                <span class="font-semibold"> {{ __('Pagi') }} </span>
+                                <span class="font-semibold"> {{ __('08.00 - 11.30') }} </span>
                             @elseif ($counseling->time_preference === 'afternoon')
-                                <span class="font-semibold"> {{ __('Siang') }} </span>
+                                <span class="font-semibold"> {{ __('12.30 - 15.00') }} </span>
                             @elseif ($counseling->time_preference === 'evening')
-                                <span class="font-semibold"> {{ __('Sore') }} </span>
+                                <span class="font-semibold"> {{ __('15.30 - 17.00') }} </span>
                             @endif
                         </p>
                     </div>

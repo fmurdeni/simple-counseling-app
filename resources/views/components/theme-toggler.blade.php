@@ -1,4 +1,4 @@
-<button {{ $attributes->merge(['class' => 'rounded-md focus:outline-none focus:shadow-outline-purple']) }}  @click="toggleTheme" aria-label="Toggle color mode" >
+<button {{ $attributes->merge(['class' => 'rounded-md focus:outline-none text-gray-500 dark:text-white hover:text-gray-800 dark:hover:text-gray-300 dark:text-gray-500']) }}  @click="toggleTheme" aria-label="Toggle color mode" >
     <template x-if="!dark">
         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"> <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path> </svg>
     </template>
