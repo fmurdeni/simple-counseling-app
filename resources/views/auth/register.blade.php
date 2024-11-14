@@ -24,12 +24,7 @@
                     <!-- Nomor Pokok Mahasiswa -->
                     <div class="mt-4">
                         <x-input-label for="npm" :value="__('Nomor Pokok Mahasiswa')" />
-                        <x-input-select name="npm" class="block mt-1 w-full">
-                            <option value="">-- Pilih Nomor Pokok Mahasiswa --</option>
-                            <option value="TI 55201">TI 55201</option>
-                            <option value="SI 57201">SI 57201</option>
-                            <option value="ARS 23201">ARS 23201</option>
-                        </x-input-select>
+                        <x-input-text id="npm" class="block mt-1 w-full" type="text" name="npm" :value="old('npm')" required autocomplete="npm" />
                         <x-input-error :messages="$errors->get('npm')" class="mt-2" />
                     </div>
                     

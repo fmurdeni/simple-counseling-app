@@ -50,12 +50,7 @@
 
         <div>
             <x-input-label for="npm" :value="__('Nomor Pokok Mahasiswa')" />
-            <x-input-select name="npm" class="block mt-1 w-full">
-                <option value="">-- Pilih Nomor Pokok Mahasiswa --</option>
-                <option value="TI 55201" {{ old('npm', $user->npm) == 'TI 55201' ? 'selected' : '' }}>TI 55201</option>
-                <option value="SI 57201" {{ old('npm', $user->npm) == 'SI 57201' ? 'selected' : '' }}>SI 57201</option>
-                <option value="ARS 23201" {{ old('npm', $user->npm) == 'ARS 23201' ? 'selected' : '' }}>ARS 23201</option>
-            </x-input-select>
+            <x-input-text id="npm" name="npm" type="text" class="mt-1 block w-full" :value="old('npm', $user->npm)"  autocomplete="npm" />
             <x-input-error :messages="$errors->get('npm')" class="mt-2" />
         </div>
 

@@ -29,12 +29,18 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $allowed_npm = array('TI 55201', 'SI 57201', 'ARS 23201');
+        $allowed_npm = array('55201', '57201', '23201');
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'npm'   => ['required', 'string','in:'.implode(',', $allowed_npm)],
+            'npm'   => ['required', 'string', function ($attribute, $value, $fail) use ($allowed_npm) {
+                $npm = substr($value, 2);
+                if (!in_array(substr($npm, 0, 5), $allowed_npm)) {
+                    $fail('NPM tidak valid, atau tidak diizinkan mendaftar aplikasi ini.');
+                }
+            }],
         ],
         [
             'email.lowercase' => 'Email harus menggunakan huruf kecil',
@@ -47,15 +53,12 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'npm' => $request->npm,
             'password' => Hash::make($request->password),
         ]);
 
         // Save the role
         $user->roles()->attach(2); // user role default
-
-        // set npm
-        $user->npm = $request->npm;
-        $user->save();
 
         event(new Registered($user));
 
