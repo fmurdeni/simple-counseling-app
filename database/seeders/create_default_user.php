@@ -18,13 +18,15 @@ class create_default_user extends Seeder
                         'id' => 1,
                         'name' => 'konselor',
                         'email' => 'konselor@konseling.local',
-                        'password' => bcrypt('konselor')
+                        'password' => bcrypt('konselor'),
+                        'npm' => '1'
                     ],
                     [
                         'id' => 2,
                         'name' => 'mahasiswa',
                         'email' => 'user@konseling.local',
-                        'password' => bcrypt('mahasiswa')
+                        'password' => bcrypt('mahasiswa'),
+                        'npm' => '2'
                     ]
             ];
 
