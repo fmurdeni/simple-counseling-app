@@ -29,10 +29,12 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $allowed_npm = array('TI 55201', 'SI 57201', 'ARS 23201');
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'npm'   => ['required', 'string','in:'.implode(',', $allowed_npm)],
         ],
         [
             'email.lowercase' => 'Email harus menggunakan huruf kecil',
@@ -50,6 +52,10 @@ class RegisteredUserController extends Controller
 
         // Save the role
         $user->roles()->attach(2); // user role default
+
+        // set npm
+        $user->npm = $request->npm;
+        $user->save();
 
         event(new Registered($user));
 
